@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	input := data.Get("data/day3.txt")
+	input := data.Get("data/day03.txt")
 
 	fmt.Println("PART 1: ", part1(input))
 	fmt.Println("PART 2: ", part2(input))
