@@ -125,22 +125,19 @@ func part2(threads int) int {
 	lists = append(lists, make([]vectorPoint, 0))
 	lists[threads - 1] = append(lists[threads - 1], pointsSlice...)
 
-	//prepare the channels
-	var channels []chan int
-	for range threads {
-		channels = append(channels, make(chan int))
-	}
+	//prepare the channel
+	ch := make(chan int)
 
 	// execute the drones
 	for i := range threads {
-		go p2drone(lists[i], channels[i])
+		go p2drone(lists[i], ch)
 	}
 
 	//collect values from the channels
-	for i := range threads {
-		total += <-channels[i]
+	for range threads {
+		total += <-ch
 	}
-
+	close(ch)
 	return total
 }
 
@@ -184,5 +181,4 @@ func p2drone(points []vectorPoint, ch chan int) {
 		}
 	}
 	ch <- total
-	close(ch)
 }

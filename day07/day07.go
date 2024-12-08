@@ -73,27 +73,23 @@ func part1() int {
 
 func part2() int {	
 	total := 0
-	chans := make([]chan int, len(input))
-	for i, eq := range input {
-		chans[i] = make(chan int)	
-		go p2worker(chans[i], eq)
+	ch := make(chan int)
+	for  _, eq := range input {
+		go p2worker(ch, eq)
 	}
 
-	for _, ch := range chans {
+	for range input {
 		total += <-ch
 	}
+	close(ch)
 	return total
 }
 
 func p2worker(ch chan int, eq string) {
 	eqSplit := strings.Split(eq, ":")
-
 	res, args := eqSplit[0], eqSplit[1]
-
 	resNum, _ := strconv.Atoi(res)
-
 	argList := getArgs(args)
-	
 	permSlice, _ := iterium.Product([]string { "+", "*", "||" }, len(argList) - 1).Slice()
 	
 	ch <- func() int {
@@ -118,5 +114,4 @@ func p2worker(ch chan int, eq string) {
 		}
 		return 0
 	}()
-	close(ch)
 }
