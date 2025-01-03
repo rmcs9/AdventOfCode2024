@@ -13,3 +13,5 @@ language of choice: go
 ## Completed: 12/27/24
 
 Really great collection of puzzles this year. Very proud of how much farther I was able to come this time (tapping out at day 21 last year)
+
+All solutions run in a total of 8.029s
